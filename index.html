@@ -43,6 +43,13 @@
         padding: 10px;
         background: #f7f7f7;
     }
+
+    .warning {
+        padding: 1px 10px;
+        background-color: rgb(255, 255, 178);
+        margin: 10px 0;
+        border: 1px solid rgb(255, 205, 0);
+    }
     </style>
 </head>
 <body>
@@ -106,6 +113,20 @@
     the browser console. You can add it to the <code>body</code> of the page
     or in a separate Javascript file. Make sure to replace the
     <b><code>apiKey</code></b> and <b>base ID</b> below with your own.
+
+    <div class="warning">
+    <p>
+    Note: Your API key carries the same privileges as your user account, <b>
+    so whoever can access the page will have access to all the bases in your
+    account.</b>
+    </p>
+
+    <p>
+    To keep your account secure and prevent unauthorized access,
+    use the Airtable API from your server. This guide is for demonstration
+    purposes only.
+    </p>
+    </div>
 
 <pre>
 &lt;script&gt;
