@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script src="airtable.browser.js"></script>
+    <style>
+    body {
+        padding: 20px;
+        font: 12pt/15pt sans-serif;
+        color: #555;
+        max-width: 700px;
+    }
+
+    label {
+        display: block;
+    }
+
+    textarea {
+        width: 500px;
+        height: 100px;
+    }
+
+    pre {
+        background: #eee;
+        border: 1px solid #ddd;
+        padding: 10px;
+        font-size: 10pt;
+    }
+
+    pre.diff {
+        color: #777;
+    }
+
+    pre.diff span.add {
+        font-weight: bold;
+        color: green;
+    }
+
+    #artists {
+        border: 1px solid #ddd;
+        padding: 10px;
+        background: #f7f7f7;
+    }
+    </style>
+</head>
+<body>
+    <h1>Airtable API Tutorial</h1>
+
+    <p>
+    This page will guide you through using the Airtable Javascript API from
+    the browser. The API will use the "Art Gallery Example" base to display
+    artists and their biographies.
+    </p>
+
+    <p>
+    This API is based on the
+    <a href="http://github.com/airtable/airtable.js">Airtable node.js library</a>.
+    Running in the browser is experimental, so some features may not work.
+    <b>Also, using the library in the browser currently exposes your private API key,
+    so this is intended for educational purposes only.</b>
+    </p>
+
+    <h2>Getting Started</h2>
+
+    <p>
+    Create an empty HTML page. Include JQuery and <a href="airtable.js/airtable.js">Airtable.js for browsers</a>.
+<pre>
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;script src="http://code.jquery.com/jquery-1.11.3.min.js"&gt;&lt;/script&gt;
+    &lt;script src="http://kasrak.com/airtable-api/airtable.browser.js"&gt;&lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;div id="artists"&gt;&lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</pre>
+    </p>
+
+    <h2>API Documentation</h2>
+
+    <p>Go to your <a href="https://airtable.com/account">Airtable account page</a>.
+    If you don't already have an API key, you will see a "Generate API key"
+    link. Click it to generate a new key. If you already have an API key,
+    you don't have to do anything.
+    </p>
+
+    <p>Now go back to <a href="https://airtable.com">your bases</a> open the
+    "Art Gallery" base. (If you don't have it, click "New Base" and select the "Art Gallery template.)</p>
+
+    <p>To open the API docs, click "Help" in the top right corner, then select "API docs".</p>
+
+    <img src="api-docs-menu.png">
+
+    <p>The API documentation is custom generated based on the tables and fields
+    of your base. Enable the "Show API key" and switch to the node.js tab.
+    </p>
+
+    <h2>Fetching Artists</h2>
+
+    The following snippet fetches the first three artists and logs them to
+    the browser console. You can add it to the <code>body</code> of the page
+    or in a separate Javascript file.
+
+<pre>
+&lt;script&gt;
+var base = new Airtable({ apiKey: 'keykHOHLHddJw6MxX' }).base('appzZUAqomNZC55As');
+
+base('Artists').list(3, null, {view: 'Main View'}, function(err, records, newOffset) {
+    if (err) {
+        console.log(err);
+        return;
+    }
+
+    records.forEach(function(record) {
+        console.log('Retrieved ', record.get('Name'));
+    });
+});
+
+&lt;/script&gt;
+</pre>
+
+    Let's make the artists show up on the page:
+
+<pre class="diff">
+<span class="add">&lt;div id="artists"&gt;&lt;/div&gt;</span>
+&lt;script&gt;
+var base = new Airtable({ apiKey: 'keykHOHLHddJw6MxX' }).base('appzZUAqomNZC55As');
+
+base('Artists').list(3, null, {view: 'Main View'}, function(err, records, newOffset) {
+    if (err) {
+        console.log(err);
+        return;
+    }
+
+    records.forEach(function(record) {
+        <span class="remove">console.log('Retrieved ', record.get('Name'));</span>
+
+        <span class="add">var $artistInfo = $('&lt;div&gt;');
+        $artistInfo.append($('&lt;h3&gt;').text(record.get('Name')));
+        $artistInfo.append($('&lt;div&gt;').text(record.get('Bio')));
+
+        $('#artists').append($artistInfo);
+        </span>
+    });
+});
+
+&lt;/script&gt;
+</pre>
+
+Here's what it'll look like:
+
+    <div id="artists">
+    </div>
+
+    <script>
+    var base = new Airtable({ apiKey: 'keykHOHLHddJw6MxX' }).base('appzZUAqomNZC55As');
+
+    base('Artists').list(3, null, {view: 'Main View'}, function(err, records, newOffset) {
+        if (err) {
+            console.log(err);
+            return;
+        }
+
+        records.forEach(function(record) {
+            console.log('Retrieved ', record.get('Name'));
+
+            var $artistInfo = $('<div>');
+            $artistInfo.append($('<h3>').text(record.get('Name')));
+            $artistInfo.append($('<div>').text(record.get('Bio')));
+
+            $('#artists').append($artistInfo);
+
+        });
+    });
+    </script>
+
+
+<h2>Next Steps</h2>
+
+<p>Hopefully this helps you get started with the Airtable API. Read the documentation
+page for your base to discover all the other things you can do.</p>
+
+<p>If you need some inspiration, here are some ways to extend the simple
+artist viewer we just built:
+<ul>
+    <li>Display each artist's paintings.</li>
+    <li>Let the user add more artists to the lists.</li>
+</ul>
+</p>
+
+</body>
+</html>
