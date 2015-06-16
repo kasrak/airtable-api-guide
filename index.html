@@ -109,6 +109,7 @@
 
 <pre>
 &lt;script&gt;
+var Airtable = require('airtable');
 var base = new Airtable({ apiKey: <b>'keykHOHLHddJw6MxX'</b> }).base(<b>'appzZUAqomNZC55As'</b>);
 
 base('Artists').list(3, null, {view: 'Main View'}, function(err, records, newOffset) {
@@ -130,6 +131,7 @@ base('Artists').list(3, null, {view: 'Main View'}, function(err, records, newOff
 <pre class="diff">
 <span class="add">&lt;div id="artists"&gt;&lt;/div&gt;</span>
 &lt;script&gt;
+var Airtable = require('airtable');
 var base = new Airtable({ apiKey: 'keykHOHLHddJw6MxX' }).base('appzZUAqomNZC55As');
 
 base('Artists').list(3, null, {view: 'Main View'}, function(err, records, newOffset) {
@@ -159,6 +161,7 @@ Here's what it'll look like:
     </div>
 
     <script>
+    var Airtable = require('airtable');
     var base = new Airtable({ apiKey: 'keykHOHLHddJw6MxX' }).base('appzZUAqomNZC55As');
 
     base('Artists').list(3, null, {view: 'Main View'}, function(err, records, newOffset) {
