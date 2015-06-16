@@ -104,11 +104,12 @@
 
     The following snippet fetches the first three artists and logs them to
     the browser console. You can add it to the <code>body</code> of the page
-    or in a separate Javascript file.
+    or in a separate Javascript file. Make sure to replace the
+    <b><code>apiKey</code></b> and <b>base ID</b> below with your own.
 
 <pre>
 &lt;script&gt;
-var base = new Airtable({ apiKey: 'keykHOHLHddJw6MxX' }).base('appzZUAqomNZC55As');
+var base = new Airtable({ apiKey: <b>'keykHOHLHddJw6MxX'</b> }).base(<b>'appzZUAqomNZC55As'</b>);
 
 base('Artists').list(3, null, {view: 'Main View'}, function(err, records, newOffset) {
     if (err) {
