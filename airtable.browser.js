@@ -107,7 +107,7 @@ module.exports = Base;
     var Class = function(){};
 
     // Create a new Class that inherits from this class
-    Class.extend = function(prop) {
+    Class.extend = function extender(prop) {
         var _super = this.prototype;
 
         // Instantiate a base class (but only create the instance,
@@ -154,7 +154,7 @@ module.exports = Base;
         Class.prototype.constructor = Class;
 
         // And make this class extendable
-        Class.extend = arguments.callee;
+        Class.extend = extender;
 
         return Class;
     };
@@ -233,7 +233,7 @@ var Record = Class.extend({
     },
     destroy: function(done) {
         var that = this;
-        this._table._base.runAction('del', '/' + this._table._urlEncodedNameOrId() + '/' + this.id, {}, {}, function(err, response, results) {
+        this._table._base.runAction('delete', '/' + this._table._urlEncodedNameOrId() + '/' + this.id, {}, {}, function(err, response, results) {
             if (err) { done(err); return; }
 
             done(null, that);
