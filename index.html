@@ -133,15 +133,19 @@
 var Airtable = require('airtable');
 var base = new Airtable({ apiKey: <b>'keykHOHLHddJw6MxX'</b> }).base(<b>'appzZUAqomNZC55As'</b>);
 
-base('Artists').list(3, null, {view: 'Main View'}, function(err, records, newOffset) {
-    if (err) {
-        console.log(err);
-        return;
-    }
-
+base('Artists').select({
+    maxRecords: 3,
+    view: 'Main View',
+}).eachPage(function page(records, fetchNextPage) {
     records.forEach(function(record) {
         console.log('Retrieved ', record.get('Name'));
     });
+
+    fetchNextPage();
+}, function done(error) {
+    if (error) {
+        console.log('An error occured!', error);
+    }
 });
 
 &lt;/script&gt;
@@ -155,12 +159,10 @@ base('Artists').list(3, null, {view: 'Main View'}, function(err, records, newOff
 var Airtable = require('airtable');
 var base = new Airtable({ apiKey: 'keykHOHLHddJw6MxX' }).base('appzZUAqomNZC55As');
 
-base('Artists').list(3, null, {view: 'Main View'}, function(err, records, newOffset) {
-    if (err) {
-        console.log(err);
-        return;
-    }
-
+base('Artists').select({
+    maxRecords: 3,
+    view: 'Main View',
+}).eachPage(function page(records, fetchNextPage) {
     records.forEach(function(record) {
         <span class="remove">console.log('Retrieved ', record.get('Name'));</span>
 
@@ -171,6 +173,12 @@ base('Artists').list(3, null, {view: 'Main View'}, function(err, records, newOff
         $('#artists').append($artistInfo);
         </span>
     });
+
+    fetchNextPage();
+}, function done(error) {
+    if (error) {
+        console.log('An error occured!', error);
+    }
 });
 
 &lt;/script&gt;
@@ -185,12 +193,10 @@ Here's what it'll look like:
     var Airtable = require('airtable');
     var base = new Airtable({ apiKey: 'keykHOHLHddJw6MxX' }).base('appzZUAqomNZC55As');
 
-    base('Artists').list(3, null, {view: 'Main View'}, function(err, records, newOffset) {
-        if (err) {
-            console.log(err);
-            return;
-        }
-
+    base('Artists').select({
+        maxRecords: 3,
+        view: 'Main View',
+    }).eachPage(function page(records, fetchNextPage) {
         records.forEach(function(record) {
             console.log('Retrieved ', record.get('Name'));
 
@@ -199,8 +205,13 @@ Here's what it'll look like:
             $artistInfo.append($('<div>').text(record.get('Bio')));
 
             $('#artists').append($artistInfo);
-
         });
+
+        fetchNextPage();
+    }, function done(error) {
+        if (error) {
+            console.log('An error occured!', error);
+        }
     });
     </script>
 
